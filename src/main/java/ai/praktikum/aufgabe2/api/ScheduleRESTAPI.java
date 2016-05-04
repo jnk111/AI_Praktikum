@@ -74,12 +74,9 @@ public class ScheduleRESTAPI {
 		delete("/plan/:id", (req, res) -> {
 			
 			ScheduleID id = ScheduleID.get(req.params(":id"));
-
-			WeekSchedule s = SERVICE.getScheduleWithID(id);
 			SERVICE.deleteSchedule(id);
 			res.status(StatusCodes.OK);
 			return StatusCodes.OK + StatusCodes.OK_DELETED_MSG;
-			
 		});
 		
 	}
