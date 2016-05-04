@@ -1,5 +1,7 @@
 package ai.praktikum.aufgabe2.models;
 
+import java.util.Objects;
+
 public class WeekSchedule implements Validable, Convertable<JSONWeekSchedule>{
 
 	private ScheduleID id;
@@ -39,29 +41,6 @@ public class WeekSchedule implements Validable, Convertable<JSONWeekSchedule>{
 	}
 
 	@Override
-	public int hashCode() {
-
-		return this.id.hashCode() + this.content.hashCode() * 42;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-
-		if (obj == null) {
-			return false;
-		}
-
-		if (obj instanceof WeekSchedule) {
-			WeekSchedule s = (WeekSchedule) obj;
-			
-			return (s.id == null && s.content == null 
-							&& this.id == null && this.content == null)
-								|| (s.id.equals(this.id) && this.content.equals(s.content));
-		}
-		return false;
-	}
-
-	@Override
 	public String toString() {
 		return "Schedule -> ID: " + this.id.toString() + "Content: " + this.content;
 	}
@@ -76,5 +55,18 @@ public class WeekSchedule implements Validable, Convertable<JSONWeekSchedule>{
 	public JSONWeekSchedule convert() {
 		
 		return new JSONWeekSchedule(this.id.getId(), this.content);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		WeekSchedule that = (WeekSchedule) o;
+		return Objects.equals(getId(), that.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId());
 	}
 }

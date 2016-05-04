@@ -1,9 +1,6 @@
 package ai.praktikum.aufgabe2.api;
 
-import static spark.Spark.exception;
-import static spark.Spark.get;
-import static spark.Spark.post;
-import static spark.Spark.put;
+import static spark.Spark.*;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -77,8 +74,9 @@ public class ScheduleRESTAPI {
 		delete("/plan/:id", (req, res) -> {
 			
 			ScheduleID id = ScheduleID.get(req.params(":id"));
+
 			WeekSchedule s = SERVICE.getScheduleWithID(id);
-			SERVICE.deleteSchedule(s);
+			SERVICE.deleteSchedule(id);
 			res.status(StatusCodes.OK);
 			return StatusCodes.OK + StatusCodes.OK_DELETED_MSG;
 			

@@ -40,8 +40,8 @@ public class ScheduleService {
 		s.setContent(content);
 	}
 
-	public void deleteSchedule(WeekSchedule s) {
-		
+	public void deleteSchedule(ScheduleID s) {
+
 		if(schedules.remove(s) == null){
 			throw new IllegalArgumentException();
 		};
