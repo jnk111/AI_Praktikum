@@ -1,0 +1,129 @@
+#%RAML 0.8
+title: WochenPlanREST_API
+version: "1.0.0"
+baseUri: "http://jd-hh.de:80"
+schemas: 
+    - 
+        Content: '{
+                    "type":"object",
+                    "$schema":"http://json-schema.org/draft-03/schema#",
+                    "title":"Content",
+                    "properties":
+                      {
+                        "content":
+                          {
+                            "type":"string",
+                            "required":true,
+                            "title":"content"
+                          }
+                      }
+                  }'
+    - 
+        ScheduleCreateResponse: '{
+                                    "type":"object",
+                                    "$schema":"http://json-schema.org/draft-03/schema#",
+                                    "title":"ScheduleCreateResponse",
+                                    "properties":
+                                      {
+                                        "id":
+                                          {
+                                            "type":"string",
+                                            "required":true,
+                                            "title":"id"
+                                          }
+                                      }
+                                  }'
+    - 
+        ScheduleJson: '{
+                          "type":"object",
+                          "$schema":"http://json-schema.org/draft-03/schema#",
+                          "description":"the requested schedule as json",
+                          "title":"ScheduleJson",
+                          "properties":
+                            {
+                              "id":
+                                {
+                                  "type":"string",
+                                  "required":true,
+                                  "title":"id"
+                                },
+                              "content":
+                                {
+                                  "type":"string",
+                                  "required":true,
+                                  "title":"content"
+                                }
+                            }
+                        }'
+
+/plan: 
+    displayName: Schedule
+    post: 
+        description: Create new Schedule
+        headers: 
+            Content-Type: application/json
+        body: 
+            application/json: 
+                schema: Content
+                example: "Content-Type : application/json"
+        responses: 
+            "200": 
+                description: Successfully created the schedule
+                headers: 
+                    Content-Type: application/json
+                body: 
+                    application/json: 
+                        schema: ScheduleCreateResponse
+                        example: '{"id":"sample id"}'
+            "405": 
+                description: wrong mime-type and/or no content given
+/plan/{id}: 
+    displayName: Get specific schedule
+    get: 
+        responses: 
+            "200": 
+                description: Successfully found the schedule related to the given uri
+                headers: 
+                    Content-Type: application/json
+                body: 
+                    application/json: 
+                        schema: ScheduleJson
+                        example: '{"id":"example.com/myID","content":"blablabla"}'
+            "405": 
+                description: resource not found
+    put: 
+        description: Update Schedule
+        headers: 
+            Content-Type: application/json
+        body: 
+            application/json: 
+                schema: ScheduleJson
+                example: '{"id":"sample id","content":"sample content"}'
+        responses: 
+            "200": 
+                description: Successfully updated
+                headers: 
+                    Content-Type: application/json
+                body: 
+                    application/json: 
+                        schema: ScheduleJson
+                        example: '{"id":"sample id","content":"sample content"}'
+            "404": 
+                description: ID not found
+            "405": 
+                description: Invalid ID format or ID not in Path
+    delete: 
+        description: Delete Schedule
+        responses: 
+            "200": 
+                description: Schedule successfully deleted
+                headers: 
+                    Content-Type: application/json
+                body: 
+                    application/json: 
+                        schema: ScheduleJson
+                        example: '{"id":"sample id","content":"sample content"}'
+            "404": 
+                description: Resource/ ID not found
+            "405": 
+                description: No ID given or ID format wrong
