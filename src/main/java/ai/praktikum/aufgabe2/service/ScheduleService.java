@@ -57,7 +57,13 @@ public class ScheduleService {
 	
 	private synchronized ScheduleID getNextID(){
 		
-		return ScheduleID.get("" + (schedules.size() + 1));
+		int next = schedules.size();
+		ScheduleID nextID = ScheduleID.get("" + next);
+		while(schedules.containsKey(nextID)){
+			next++;
+			nextID = ScheduleID.get(("" + next));
+		}
+		return nextID;
 		
 	}
 
